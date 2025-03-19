@@ -7,4 +7,6 @@ return function (entity)
 
     entity.transform.pos.x = love.graphics.getWidth() / 2.0
     entity.transform.pos.y = 750.0
+
+    return entity
 end
