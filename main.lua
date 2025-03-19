@@ -3,7 +3,7 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
 end
 
-local Vector = require("lib.hump.vector")
+local TextureRegistry = require("textureRegistry")
 local World = require("world")
 local Input = require("input")
 local Player = require("assemblers.player")
@@ -13,6 +13,10 @@ local world
 
 function love.load()
     world = World()
+
+    local spawner = world:newEntity("spawner")
+        :give("enemySpawner")
+    world.world:emit("spawn")
 
     Player(world:newEntity("player"))
     Enemy(world:newEntity("enemy"), 1, Vector(100.0, 100.0))
