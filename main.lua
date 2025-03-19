@@ -3,10 +3,26 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
 end
 
+local World = require("world")
 local Input = require("input")
 
+local world
+
+function love.load()
+    world = World()
+    world.printEntities = true
+    local player = world:newEntity("player")
+        :give("player")
+        :give("drawable")
+    player.transform.pos.y = 100.0
+end
+
+function love.update(dt)
+    world:update(dt)
+end
+
 function love.draw()
-    love.graphics.print("SHMUP")
+    world:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
