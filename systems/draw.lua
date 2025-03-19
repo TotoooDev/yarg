@@ -8,10 +8,10 @@ local DrawSystem = Concord.system({
 function DrawSystem:default(entity)
     love.graphics.rectangle(
         "fill",
-        entity.transform.pos.x - entity.transform.size.x / 2,
-        entity.transform.pos.y - entity.transform.size.y / 2,
-        entity.transform.size.x,
-        entity.transform.size.y
+        entity.transform.pos.x - (entity.transform.size.x * entity.transform.scale.x) / 2,
+        entity.transform.pos.y - (entity.transform.size.y * entity.transform.scale.y) / 2,
+        entity.transform.size.x * entity.transform.scale.x,
+        entity.transform.size.y * entity.transform.scale.y
     )
 end
 

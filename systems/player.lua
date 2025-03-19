@@ -9,13 +9,39 @@ local PlayerSystem = Concord.system({
 local function move(entity, dt)
     local transform = entity.transform
     local windowWidth = love.graphics.getWidth()
+    local isMoving = false
+    local scaleFactor = 7.0
 
     if Input.left and transform.pos.x - transform.size.x / 2 >= 0.0 then
         transform.pos.x = transform.pos.x - entity.ship.speed * dt
+        transform.scale.x = transform.scale.x + dt * scaleFactor
+        transform.scale.y = transform.scale.y - dt * scaleFactor
+        isMoving = true
     end
 
     if Input.right and transform.pos.x + transform.size.x / 2 <= windowWidth then
         transform.pos.x = transform.pos.x + entity.ship.speed * dt
+        transform.scale.x = transform.scale.x + dt * scaleFactor
+        transform.scale.y = transform.scale.y - dt * scaleFactor
+        isMoving = true
+    end
+
+    if transform.scale.x >= 1.5 then
+        transform.scale.x = 1.5
+    end
+    if transform.scale.y <= 0.75 then
+        transform.scale.y = 0.75
+    end
+
+    if not isMoving then
+        transform.scale.x = transform.scale.x - dt * scaleFactor
+        transform.scale.y = transform.scale.y + dt * scaleFactor
+    end
+    if transform.scale.x <= 1.0 then
+        transform.scale.x = 1.0
+    end
+    if transform.scale.y >= 1.0 then
+        transform.scale.y = 1.0
     end
 end
 
