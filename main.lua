@@ -5,16 +5,14 @@ end
 
 local World = require("world")
 local Input = require("input")
+local Player = require("entities.player")
 
 local world
 
 function love.load()
     world = World()
-    world.printEntities = true
-    local player = world:newEntity("player")
-        :give("player")
-        :give("drawable")
-    player.transform.pos.y = 100.0
+
+    Player(world)
 end
 
 function love.update(dt)
