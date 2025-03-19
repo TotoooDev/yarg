@@ -3,17 +3,19 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
 end
 
+local Vector = require("lib.hump.vector")
 local World = require("world")
 local Input = require("input")
-local Player = require("entities.player")
+local Player = require("assemblers.player")
+local Enemy = require("assemblers.enemy")
 
 local world
 
 function love.load()
     world = World()
-    world.printEntities = true
 
-    Player(world)
+    Player(world:newEntity("player"))
+    Enemy(world:newEntity("enemy"), 1, Vector(100.0, 100.0))
 end
 
 function love.update(dt)
