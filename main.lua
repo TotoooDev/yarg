@@ -8,10 +8,19 @@ local World = require("world")
 local Input = require("input")
 local Player = require("assemblers.player")
 
+local lovebpm = require("lib.lovebpm")
+
+TRACK = nil
 local world
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
+
+    TRACK = lovebpm.newTrack()
+        :load("assets/1408549_Rep.mp3")
+        :setBPM(130)
+        :play(true)
+        :setTime(1.7)
 
     world = World()
 
@@ -24,6 +33,7 @@ end
 
 function love.update(dt)
     Timer.update(dt)
+    TRACK:update()
     world:update(dt)
 end
 
