@@ -4,8 +4,10 @@ local Enemy = require("assemblers.enemy")
 
 local waveLayouts = {
     {
-        { 1, 1, 1, 1, 1 },
-        { 1, 1, 1, 1, 1 },
+        { 2, 2, 2, 2, 2, 2 },
+        { 2, 2, 2, 2, 2, 2 },
+        { 2, 2, 2, 2, 2, 2 },
+        { 2, 2, 2, 2, 2, 2 },
     }
 }
 

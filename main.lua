@@ -3,6 +3,7 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
 end
 
+local Timer = require("lib.hump.timer")
 local World = require("world")
 local Input = require("input")
 local Player = require("assemblers.player")
@@ -22,6 +23,7 @@ function love.load()
 end
 
 function love.update(dt)
+    Timer.update(dt)
     world:update(dt)
 end
 
