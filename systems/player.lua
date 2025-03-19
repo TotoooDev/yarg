@@ -1,6 +1,5 @@
 local Concord = require("lib.Concord")
 local Vector = require("lib.hump.vector")
-local TextureRegistry = require("textureRegistry")
 local Input = require("input")
 
 local PlayerSystem = Concord.system({
@@ -32,7 +31,7 @@ local function shoot(entity)
             entity.world:newEntity("projectile")
                 :give("transform", pos)
                 :give("projectile")
-                :give("drawable", TextureRegistry.projectile)
+                :give("drawable")
 
             -- overheat
             player.heat = player.heat + player.heatRate

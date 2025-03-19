@@ -6,24 +6,13 @@ local DrawSystem = Concord.system({
 })
 
 function DrawSystem:default(entity)
-    if entity.drawable.image then
-        love.graphics.draw(
-            entity.drawable.image,
-            entity.transform.pos.x - entity.transform.size.x / 2,
-            entity.transform.pos.y - entity.transform.size.y / 2,
-            0.0,
-            entity.transform.size.x / entity.drawable.image:getWidth(),
-            entity.transform.size.y / entity.drawable.image:getHeight()
-        )
-    else
-        love.graphics.rectangle(
-            "fill",
-            entity.transform.pos.x - entity.transform.size.x / 2,
-            entity.transform.pos.y - entity.transform.size.y / 2,
-            entity.transform.size.x,
-            entity.transform.size.y
-        )
-    end
+    love.graphics.rectangle(
+        "fill",
+        entity.transform.pos.x - entity.transform.size.x / 2,
+        entity.transform.pos.y - entity.transform.size.y / 2,
+        entity.transform.size.x,
+        entity.transform.size.y
+    )
 end
 
 function DrawSystem:player(entity)
