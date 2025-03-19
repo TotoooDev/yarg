@@ -19,14 +19,11 @@ local function move(entity, dt)
     end
 end
 
-function PlayerSystem:update(dt)
-    for _, entity in ipairs(self.pool) do
-        local transform = entity.transform
-        local player = entity.player
+local function shoot(entity)
+    local transform = entity.transform
+    local player = entity.player
 
-        move(entity, dt)
-
-        local canShoot = love.timer.getTime() - player.lastShoot >= player.cooldown and not player.overheating
+    local canShoot = love.timer.getTime() - player.lastShoot >= player.cooldown and not player.overheating
         if Input.shoot and canShoot then
             entity.world:newEntity("projectile")
                 :give("transform", transform.pos:clone(), nil, Vector(10.0, 32.0))
@@ -41,15 +38,25 @@ function PlayerSystem:update(dt)
 
             player.lastShoot = love.timer.getTime()
         end
+end
 
-        -- dissipate heat
-        if player.heat >= 0.0 then
-            player.heat = player.heat - player.overheatDissipationRate * dt
-        end
-        if player.heat < 0.0 then
-            player.overheating = false
-            player.heat = 0.0
-        end
+local function dissipateHeat(entity, dt)
+    local player = entity.player
+
+    if player.heat >= 0.0 then
+        player.heat = player.heat - player.overheatDissipationRate * dt
+    end
+    if player.heat < 0.0 then
+        player.overheating = false
+        player.heat = 0.0
+    end
+end
+
+function PlayerSystem:update(dt)
+    for _, entity in ipairs(self.pool) do
+        move(entity, dt)
+        shoot(entity)
+        dissipateHeat(entity, dt)
     end
 end
 
