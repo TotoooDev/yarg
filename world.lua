@@ -11,13 +11,9 @@ function World:init()
     Concord.utils.loadNamespace("systems", self.systems)
 
     self.world = Concord.world()
-
-    self.world:addSystems(
-        self.systems.debugPrint,
-        self.systems.draw,
-        self.systems.player,
-        self.systems.projectile
-    )
+    for _, system in pairs(self.systems) do
+        self.world:addSystems(system)
+    end
 end
 
 function World:newEntity(name)
