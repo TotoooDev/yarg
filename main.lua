@@ -12,6 +12,10 @@ local Enemy = require("assemblers.enemy")
 local world
 
 function love.load()
+    love.graphics.setDefaultFilter("nearest", "nearest")
+
+    TextureRegistry.load()
+
     world = World()
 
     local spawner = world:newEntity("spawner")

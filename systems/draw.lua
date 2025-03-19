@@ -12,8 +12,8 @@ function DrawSystem:default(entity)
             entity.transform.pos.x - entity.transform.size.x / 2,
             entity.transform.pos.y - entity.transform.size.y / 2,
             0.0,
-            entity.transform.size.x,
-            entity.transform.size.y
+            entity.transform.size.x / entity.drawable.image:getWidth(),
+            entity.transform.size.y / entity.drawable.image:getHeight()
         )
     else
         love.graphics.rectangle(
@@ -43,7 +43,7 @@ function DrawSystem:player(entity)
         10.0,
         love.graphics.getHeight()
     )
-    
+
     love.graphics.setColor({ 1.0, 1.0, 1.0 })
 end
 

@@ -1,7 +1,9 @@
+local TextureRegistry = require("textureRegistry")
+
 return function (entity)
     entity:give("player")
         :give("ship", 700.0)
-        :give("drawable")
+        :give("drawable", TextureRegistry.playerShip)
 
     entity.transform.pos.x = love.graphics.getWidth() / 2.0
     entity.transform.pos.y = 750.0

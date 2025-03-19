@@ -1,5 +1,6 @@
 local Concord = require("lib.Concord")
 local Vector = require("lib.hump.vector")
+local TextureRegistry = require("textureRegistry")
 local Input = require("input")
 
 local PlayerSystem = Concord.system({
@@ -26,9 +27,9 @@ local function shoot(entity)
     local canShoot = love.timer.getTime() - player.lastShoot >= player.cooldown and not player.overheating
         if Input.shoot and canShoot then
             entity.world:newEntity("projectile")
-                :give("transform", transform.pos:clone(), nil, Vector(10.0, 32.0))
+                :give("transform", transform.pos:clone())
                 :give("projectile")
-                :give("drawable")
+                :give("drawable", TextureRegistry.projectile)
 
             -- overheat
             player.heat = player.heat + player.heatRate
