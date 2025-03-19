@@ -26,8 +26,11 @@ local function shoot(entity)
 
     local canShoot = love.timer.getTime() - player.lastShoot >= player.cooldown and not player.overheating
         if Input.shoot and canShoot then
+            local pos = transform.pos:clone()
+            pos.y = pos.y - transform.size.y
+
             entity.world:newEntity("projectile")
-                :give("transform", transform.pos:clone())
+                :give("transform", pos)
                 :give("projectile")
                 :give("drawable", TextureRegistry.projectile)
 
