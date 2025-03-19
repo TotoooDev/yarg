@@ -1,4 +1,5 @@
 local Concord = require("lib.Concord")
+local Vector = require("lib.hump.vector")
 local Input = require("input")
 
 local PlayerSystem = Concord.system({
@@ -13,6 +14,13 @@ function PlayerSystem:update(dt)
 
         if Input.right then
             entity.transform.pos.x = entity.transform.pos.x + entity.ship.speed * dt
+        end
+
+        if Input.shoot then
+            entity.world:newEntity("projectile")
+                :give("transform", entity.transform.pos:clone())
+                :give("projectile")
+                :give("drawable")
         end
     end
 end

@@ -15,7 +15,8 @@ function World:init()
     self.world:addSystems(
         self.systems.debugPrint,
         self.systems.draw,
-        self.systems.player
+        self.systems.player,
+        self.systems.projectile
     )
 end
 
@@ -23,6 +24,7 @@ function World:newEntity(name)
     local entity = Concord.entity(self.world)
         :give("label", name)
         :give("transform")
+    entity.world = self
     return entity
 end
 

@@ -11,6 +11,7 @@ local world
 
 function love.load()
     world = World()
+    world.printEntities = true
 
     Player(world)
 end
