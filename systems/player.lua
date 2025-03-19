@@ -16,11 +16,13 @@ function PlayerSystem:update(dt)
             entity.transform.pos.x = entity.transform.pos.x + entity.ship.speed * dt
         end
 
-        if Input.shoot then
+        if Input.shoot and love.timer.getTime() - entity.player.lastShoot >= entity.player.cooldown then
             entity.world:newEntity("projectile")
                 :give("transform", entity.transform.pos:clone())
                 :give("projectile")
                 :give("drawable")
+
+            entity.player.lastShoot = love.timer.getTime()
         end
     end
 end
