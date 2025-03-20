@@ -1,7 +1,9 @@
 local Concord = require("lib.Concord")
 local Vector = require("lib.hump.vector")
+local GameState = require("lib.hump.gamestate")
 local Input = require("input")
 local Projectile = require("assemblers.projectile")
+local States = require("states")
 
 local PlayerSystem = Concord.system({
     pool = { "transform", "ship", "player" }
@@ -91,7 +93,7 @@ function PlayerSystem:update(dt)
         dissipateHeat(entity, dt)
 
         if entity.player.hp <= 0 then
-            error("you ded")
+            GameState.switch(States.gameOver)
         end
     end
 end
