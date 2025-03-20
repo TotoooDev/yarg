@@ -2,6 +2,7 @@ local Concord = require("lib.Concord")
 
 local DrawSystem = Concord.system({
     rectanglePool = { "transform", "rectangleShape" },
+    circlePool = { "transform", "circleShape" },
     playerPool = { "transform", "drawable", "player" }
 })
 
@@ -24,6 +25,28 @@ function DrawSystem:rectangle(entity)
         rectangle.size.y,
         rectangle.radius,
         rectangle.radius
+    )
+
+    love.graphics.pop()
+end
+
+function DrawSystem:circle(entity)
+    local transform = entity.transform
+    local circle = entity.circleShape
+    local mode = "fill"
+    if not circle.fill then mode = "line" end
+
+    love.graphics.push()
+    love.graphics.translate(transform.pos.x, transform.pos.y)
+    love.graphics.rotate(transform.rotation)
+    love.graphics.scale(transform.scale.x, transform.scale.y)
+
+    love.graphics.circle(
+        mode,
+        0.0,
+        0.0,
+        circle.radius,
+        circle.numSegments
     )
 
     love.graphics.pop()
@@ -55,6 +78,10 @@ end
 function DrawSystem:draw()
     for _, entity in ipairs(self.rectanglePool) do
         self:rectangle(entity)
+    end
+
+    for _, entity in ipairs(self.circlePool) do
+        self:circle(entity)
     end
 
     for _, entity in ipairs(self.playerPool) do
