@@ -5,16 +5,8 @@ return function (entity, level, pos)
     entity:give("enemy", level)
         :give("ship")
         :give("drawable")
-        :give("beat", nil, nil, nil, function ()
-            if love.math.random() < entity.enemy.projectileProbability then
-                Projectile(
-                    entity.world:newEntity("projectile"),
-                    entity.transform.pos:clone(),
-                    Vector(0.0, -1.0),
-                    true
-                )
-            end
-        end)
+        :give("beat")
+        :give("spawnAnimation")
 
     if pos then
         entity.transform.pos = pos:clone()

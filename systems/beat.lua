@@ -6,28 +6,36 @@ local BeatSystem = Concord.system({
     pool = { "transform", "beat" }
 })
 
-
 function BeatSystem:onBeat()
     for _, entity in ipairs(self.pool) do
         local transform = entity.transform
+        local scale = transform.scale:clone()
         local beat = entity.beat
+
+        if not beat.doAnimation then
+            return
+        end
 
         local shrink
         local grow
         local normal
 
         shrink = function ()
-            Timer.tween(beat.time, transform, { scale = Vector(0.8 * 1 / beat.shrinkStrength, 0.8 * 1 / beat.shrinkStrength) }, "linear", grow)
+            local target = scale:clone()
+            target = target * 0.8 * 1 / beat.shrinkStrength
+            Timer.tween(beat.time, transform, { scale = target:clone() }, "linear", grow)
         end
         grow = function ()
-            Timer.tween(beat.time, transform, { scale = Vector(1.0 * beat.growStrength, 1.0 * beat.growStrength) }, "linear", normal)
+            local target = scale:clone()
+            target = target * beat.growStrength
+            Timer.tween(beat.time, transform, { scale = target:clone() }, "linear", normal)
         end
         normal = function ()
-            Timer.tween(beat.time, transform, { scale = Vector(1.0, 1.0) }, "linear")
+            local target = scale:clone()
+            Timer.tween(beat.time, transform, { scale = target:clone() }, "linear")
         end
 
         shrink()
-        beat.func()
     end
 end
 

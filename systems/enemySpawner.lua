@@ -4,16 +4,16 @@ local States = require("states")
 local Enemy = require("assemblers.enemy")
 
 local waveLayouts = {
-    -- {
-    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
-    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
-    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
-    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
-    -- },
-    -- {
-    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
-    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
-    -- }
+    {
+        { 2, 2, 2, 2, 2, 2, 2, 2 },
+        { 2, 2, 2, 2, 2, 2, 2, 2 },
+        { 2, 2, 2, 2, 2, 2, 2, 2 },
+        { 2, 2, 2, 2, 2, 2, 2, 2 },
+    },
+    {
+        { 2, 2, 2, 2, 2, 2, 2, 2 },
+        { 2, 2, 2, 2, 2, 2, 2, 2 },
+    },
 
     {{1}},
     {{2, 2}},
@@ -46,14 +46,19 @@ end
 
 function EnemySpawnerSystem:onEnemyDead()
     for _, entity in ipairs(self.pool) do
-        entity.enemySpawner.enemiesAlive = entity.enemySpawner.enemiesAlive - 1
-        if entity.enemySpawner.enemiesAlive <= 0 then
+        if entity.enemySpawner.wave > #waveLayouts then
+            Gamestate.switch(States.gameOver, true)
+        end
+    end
+end
+
+function EnemySpawnerSystem:onBeat()
+    for _, entity in ipairs(self.pool) do
+        entity.enemySpawner.currentBeat = entity.enemySpawner.currentBeat + 1
+        if entity.enemySpawner.currentBeat >= entity.enemySpawner.beatInterval then
+            entity.enemySpawner.currentBeat = 0
             entity.enemySpawner.wave = entity.enemySpawner.wave + 1
-            if entity.enemySpawner.wave > #waveLayouts then
-                Gamestate.switch(States.gameOver, true)
-            else
-                entity.world:emit("spawn")
-            end
+            entity.world:emit("spawn")
         end
     end
 end

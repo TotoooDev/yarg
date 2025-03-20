@@ -16,16 +16,26 @@ return function (state)
         track = lovebpm.newTrack()
             :load(AudioRegistry.music.rep)
             :setBPM(130)
+            :setBeat(4)
             :play(true)
             :setVolume(0.0)
-            :setTime(1.7)
-            :on("beat", function () world.world:emit("onBeat") end)
+            :on("beat", function (n) world.world:emit("onBeat", n) end)
+        AudioRegistry.setCurrentBPM(130)
 
         world:newEntity("spawner")
             :give("enemySpawner")
+            :give("beat")
         world.world:emit("spawn")
 
         Player(world:newEntity("player"))
+    end
+
+    function state:leave()
+        Input.left = false
+        Input.right = false
+        Input.shoot = false
+
+        track:stop()
     end
 
     function state:update(dt)
