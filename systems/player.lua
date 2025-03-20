@@ -1,6 +1,7 @@
 local Concord = require("lib.Concord")
 local Vector = require("lib.hump.vector")
 local Input = require("input")
+local Projectile = require("assemblers.projectile")
 
 local PlayerSystem = Concord.system({
     pool = { "transform", "ship", "player" }
@@ -54,11 +55,12 @@ local function shoot(entity)
             local pos = transform.pos:clone()
             pos.y = pos.y - transform.size.y
 
-            local projectile = entity.world:newEntity("projectile")
-                :give("transform", pos, nil, Vector(32.0, 32.0))
-                :give("projectile")
-                :give("drawable")
-                :give("beat", 2.0, 2.0)
+            Projectile(
+                entity.world:newEntity("projectile"),
+                transform.pos:clone(),
+                Vector(0.0, 1.0),
+                false
+            )
 
             -- overheat
             player.heat = player.heat + player.heatRate
