@@ -36,6 +36,22 @@ function EnemySystem:update(dt)
                 eEntity.enemy.hp = eEntity.enemy.hp - 1
             end
         end
+
+        for _, ppEntity in ipairs(self.projectilePool) do
+            if pEntity ~= ppEntity then
+                local collision = Util.aabbCollision(
+                    pEntity.transform.pos,
+                    pEntity.transform.size,
+                    ppEntity.transform.pos,
+                    ppEntity.transform.size
+                )
+
+                if collision then
+                    pEntity:destroy()
+                    ppEntity:destroy()
+                end
+            end
+        end
     end
 end
 
