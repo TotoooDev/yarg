@@ -1,9 +1,10 @@
 local Timer = require("lib.hump.timer")
+local Vector = require("lib.hump.vector")
 local lovebpm = require("lib.lovebpm")
 local AudioRegistry = require("audioRegistry")
 local World = require("world")
 local Input = require("input")
-local Score = require("score")
+local Score = require("assemblers.score")
 local Player = require("assemblers.player")
 
 return function (state)
@@ -13,7 +14,7 @@ return function (state)
 
     function state:enter()
         world = World()
-        world.printEntities = true
+        -- world.printEntities = true
 
         track = lovebpm.newTrack()
             :load(AudioRegistry.music.rep)
@@ -29,6 +30,7 @@ return function (state)
             :give("beat")
         world.world:emit("spawn")
 
+        Score(world:newEntity("score"))
         Player(world:newEntity("player"))
 
         score = 0
@@ -49,7 +51,6 @@ return function (state)
     end
 
     function state:draw()
-        love.graphics.print("SCORE: " .. Score.get(), love.graphics.getWidth() / 2, love.graphics.getHeight() / 2)
         world:draw()
     end
 
