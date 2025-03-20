@@ -25,23 +25,6 @@ end
 
 function EnemySystem:onBeat(n)
     for _, entity in ipairs(self.pool) do
-        entity.enemy.beats = entity.enemy.beats + 1
-        if entity.enemy.beats >= 7 then
-            if not entity.enemy.diving then
-                Timer.tween(
-                    0.3,
-                    entity.transform,
-                    { pos = Vector(entity.transform.pos.x, love.graphics.getHeight() + entity.rectangleShape.size.y) },
-                    "in-back",
-                    function ()
-                        entity.world:emit("onEnemyDead")
-                        entity:destroy()
-                    end
-                )
-                entity.enemy.diving = true
-            end
-        end
-
         if love.math.random() < entity.enemy.projectileProbability then
             Projectile(
                 entity.world:newEntity("projectile"),
@@ -50,6 +33,22 @@ function EnemySystem:onBeat(n)
                 true
             )
         end
+    end
+end
+
+function EnemySystem:dive()
+    for _, entity in ipairs(self.pool) do
+        Timer.tween(
+            0.3,
+            entity.transform,
+            { pos = Vector(entity.transform.pos.x, love.graphics.getHeight() + entity.rectangleShape.size.y) },
+            "in-back",
+            function ()
+                entity.world:emit("onEnemyDead")
+                entity:destroy()
+            end
+        )
+        entity.enemy.diving = true
     end
 end
 

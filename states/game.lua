@@ -1,27 +1,38 @@
 local Timer = require("lib.hump.timer")
-local Vector = require("lib.hump.vector")
+local Signal = require("lib.hump.signal")
+local Gamestate = require("lib.hump.gamestate")
 local lovebpm = require("lib.lovebpm")
 local AudioRegistry = require("audioRegistry")
 local World = require("world")
 local Input = require("input")
-local Score = require("assemblers.score")
+local States = require("states")
+local Score = require("score")
+local ScoreAssembler = require("assemblers.score")
 local Player = require("assemblers.player")
 
 return function (state)
     local world
     local track
-    local score = 0
 
     function state:enter()
+        Signal.register("levelOver", function (hasWin)
+            local f = function (t)
+                track:setVolume(t)
+                return t
+            end
+            local foo = { foo = 1 }
+            Timer.tween(2.0, foo, { foo = 2 }, Timer.tween.out(f), function () Gamestate.switch(States.gameOver, hasWin) end)
+        end)
+
         world = World()
         -- world.printEntities = true
 
         track = lovebpm.newTrack()
             :load(AudioRegistry.music.rep)
             :setBPM(130)
-            :setBeat(4)
+            -- :setBeat(4)
             :play(true)
-            :setVolume(0.0)
+            -- :setVolume(0.0)
             :on("beat", function (n) world.world:emit("onBeat", n) end)
         AudioRegistry.setCurrentBPM(130)
 
@@ -30,18 +41,16 @@ return function (state)
             :give("beat")
         world.world:emit("spawn")
 
-        Score(world:newEntity("score"))
+        ScoreAssembler(world:newEntity("score"))
         Player(world:newEntity("player"))
 
-        score = 0
+        Score.reset()
     end
 
     function state:leave()
         Input.left = false
         Input.right = false
         Input.shoot = false
-
-        track:stop()
     end
 
     function state:update(dt)
