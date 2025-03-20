@@ -1,4 +1,5 @@
 local Concord = require("lib.Concord")
+local Score = require("score")
 local Util = require("util")
 
 local EnemySystem = Concord.system({
@@ -49,6 +50,8 @@ function EnemySystem:update(dt)
                 if collision then
                     pEntity:destroy()
                     ppEntity:destroy()
+
+                    Score.add(Score.Values.projectileDead)
                 end
             end
         end

@@ -1,6 +1,7 @@
 local Concord = require("lib.Concord")
 local Gamestate = require("lib.hump.gamestate")
 local States = require("states")
+local Score = require("score")
 local Enemy = require("assemblers.enemy")
 
 local waveLayouts = {
@@ -62,6 +63,10 @@ function EnemySpawnerSystem:onBeat()
             entity.world:emit("newWave")
         end
     end
+end
+
+function EnemySpawnerSystem:newWave()
+    Score.add(Score.Values.waveCompleted)
 end
 
 return EnemySpawnerSystem

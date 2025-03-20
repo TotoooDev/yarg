@@ -1,7 +1,7 @@
 local Concord = require("lib.Concord")
 local Vector = require("lib.hump.vector")
 local Timer = require("lib.hump.timer")
-local AudioRegistry = require("audioRegistry")
+local Score = require("score")
 local Projectile = require("assemblers.projectile")
 
 local EnemySystem = Concord.system({
@@ -13,6 +13,12 @@ function EnemySystem:update(dt)
         if entity.enemy.hp <= 0 then
             entity.world:emit("onEnemyDead")
             entity:destroy() -- YOU SHOULD KILL YOURSELF, NOW!
+
+            if entity.enemy.diving then
+                Score.add(Score.Values.enemyDeadWhileDiving)
+            else
+                Score.add(Score.Values.enemyDead)
+            end
         end
     end
 end
@@ -21,7 +27,7 @@ function EnemySystem:onBeat(n)
     for _, entity in ipairs(self.pool) do
         entity.enemy.beats = entity.enemy.beats + 1
         if entity.enemy.beats >= 7 then
-            if not entity.enemy.goingDown then
+            if not entity.enemy.diving then
                 Timer.tween(
                     0.3,
                     entity.transform,
@@ -32,7 +38,7 @@ function EnemySystem:onBeat(n)
                         entity:destroy()
                     end
                 )
-                entity.enemy.goingDown = true
+                entity.enemy.diving = true
             end
         end
 
