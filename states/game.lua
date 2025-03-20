@@ -1,36 +1,36 @@
 local Timer = require("lib.hump.timer")
 local lovebpm = require("lib.lovebpm")
+local AudioRegistry = require("audioRegistry")
 local World = require("world")
 local Input = require("input")
 local Player = require("assemblers.player")
 
 return function (state)
-    love.graphics.setDefaultFilter("nearest", "nearest")
-
-    local world = World()
-    world.printEntities = true
-
-    TRACK = lovebpm.newTrack()
-        :load("assets/1408549_Rep.mp3")
-        :setBPM(130)
-        :play(true)
-        :setVolume(0.0)
-        :setTime(1.7)
-        :on("beat", function () world.world:emit("onBeat") end)
-
-    local spawner = world:newEntity("spawner")
-        :give("enemySpawner")
-    world.world:emit("spawn")
-
-    Player(world:newEntity("player"))
+    local world
+    local track
 
     function state:enter()
-        print("enter game state")
+        world = World()
+        world.printEntities = true
+
+        track = lovebpm.newTrack()
+            :load(AudioRegistry.music.rep)
+            :setBPM(130)
+            :play(true)
+            :setVolume(0.0)
+            :setTime(1.7)
+            :on("beat", function () world.world:emit("onBeat") end)
+
+        world:newEntity("spawner")
+            :give("enemySpawner")
+        world.world:emit("spawn")
+
+        Player(world:newEntity("player"))
     end
 
     function state:update(dt)
         Timer.update(dt)
-        TRACK:update()
+        track:update()
         world:update(dt)
     end
 

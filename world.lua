@@ -38,4 +38,8 @@ function World:draw()
     end
 end
 
+function World:emit(function_name, ...)
+    self.world:emit(function_name, ...)
+end
+
 return World

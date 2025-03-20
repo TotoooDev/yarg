@@ -1,14 +1,22 @@
 local Concord = require("lib.Concord")
-local Vector = require("lib.hump.vector")
+local Gamestate = require("lib.hump.gamestate")
+local States = require("states")
 local Enemy = require("assemblers.enemy")
 
 local waveLayouts = {
-    {
-        { 2, 2, 2, 2, 2, 2, 2, 2 },
-        { 2, 2, 2, 2, 2, 2, 2, 2 },
-        { 2, 2, 2, 2, 2, 2, 2, 2 },
-        { 2, 2, 2, 2, 2, 2, 2, 2 },
-    }
+    -- {
+    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
+    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
+    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
+    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
+    -- },
+    -- {
+    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
+    --     { 2, 2, 2, 2, 2, 2, 2, 2 },
+    -- }
+
+    {{1}},
+    {{2, 2}},
 }
 
 local EnemySpawnerSystem = Concord.system({
@@ -19,6 +27,7 @@ function EnemySpawnerSystem:spawn()
     local enemyPadding = 8
 
     for _, entity in ipairs(self.pool) do
+        entity.enemySpawner.enemiesAlive = 0
         local waveLayout = waveLayouts[entity.enemySpawner.wave]
 
         for y, line in ipairs(waveLayout) do
@@ -28,6 +37,22 @@ function EnemySpawnerSystem:spawn()
                 local initialX = love.graphics.getWidth() / 2 - #line * (enemy.transform.size.x + enemyPadding) / 2 + enemy.transform.size.x / 2 + enemyPadding / 2
                 enemy.transform.pos.x = (x - 1) * (enemy.transform.size.x + enemyPadding) + initialX
                 enemy.transform.pos.y = (y - 1) * (enemy.transform.size.y + enemyPadding) + enemy.transform.size.y / 2 + enemyPadding
+
+                entity.enemySpawner.enemiesAlive = entity.enemySpawner.enemiesAlive + 1
+            end
+        end
+    end
+end
+
+function EnemySpawnerSystem:onEnemyDead()
+    for _, entity in ipairs(self.pool) do
+        entity.enemySpawner.enemiesAlive = entity.enemySpawner.enemiesAlive - 1
+        if entity.enemySpawner.enemiesAlive <= 0 then
+            entity.enemySpawner.wave = entity.enemySpawner.wave + 1
+            if entity.enemySpawner.wave > #waveLayouts then
+                Gamestate.switch(States.gameOver, true)
+            else
+                entity.world:emit("spawn")
             end
         end
     end

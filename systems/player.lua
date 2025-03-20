@@ -93,7 +93,7 @@ function PlayerSystem:update(dt)
         dissipateHeat(entity, dt)
 
         if entity.player.hp <= 0 then
-            GameState.switch(States.gameOver)
+            GameState.switch(States.gameOver, false)
         end
     end
 end

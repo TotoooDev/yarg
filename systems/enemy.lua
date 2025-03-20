@@ -7,6 +7,7 @@ local EnemySystem = Concord.system({
 function EnemySystem:update(dt)
     for _, entity in ipairs(self.pool) do
         if entity.enemy.hp <= 0 then
+            entity.world:emit("onEnemyDead")
             entity:destroy() -- YOU SHOULD KILL YOURSELF, NOW!
         end
     end
