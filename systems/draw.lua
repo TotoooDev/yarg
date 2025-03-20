@@ -18,7 +18,9 @@ function DrawSystem:default(entity)
         -transform.size.x / 2,
         -transform.size.y / 2,
         transform.size.x,
-        transform.size.y
+        transform.size.y,
+        8.0,
+        8.0
     )
 
     love.graphics.pop()
@@ -36,10 +38,12 @@ function DrawSystem:player(entity)
 
     love.graphics.rectangle(
         "fill",
-        0,
-        love.graphics.getHeight() / (player.overheatLimit / player.heat),
+        0.0,
+        love.graphics.getHeight() - 10.0,
+        love.graphics.getWidth() / (player.overheatLimit / player.heat),
         10.0,
-        love.graphics.getHeight()
+        8.0,
+        8.0
     )
 
     love.graphics.setColor({ 1.0, 1.0, 1.0 })

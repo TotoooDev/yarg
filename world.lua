@@ -12,6 +12,9 @@ function World:init()
 
     self.world = Concord.world()
     for _, system in pairs(self.systems) do
+        if type(system) == "boolean" then
+            error("bro you forgot to return the system (what an idiot lol)")
+        end
         self.world:addSystems(system)
     end
 end
