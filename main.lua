@@ -16,15 +16,16 @@ local world
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
 
+    world = World()
+    world.printEntities = true
+
     TRACK = lovebpm.newTrack()
         :load("assets/1408549_Rep.mp3")
         :setBPM(130)
         :play(true)
         :setVolume(0.0)
         :setTime(1.7)
-
-    world = World()
-    world.printEntities = true
+        :on("beat", function () world.world:emit("onBeat") end)
 
     local spawner = world:newEntity("spawner")
         :give("enemySpawner")

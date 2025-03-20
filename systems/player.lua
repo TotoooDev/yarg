@@ -1,7 +1,6 @@
 local Concord = require("lib.Concord")
 local Vector = require("lib.hump.vector")
 local Input = require("input")
-local Beat = require("beat")
 
 local PlayerSystem = Concord.system({
     pool = { "transform", "ship", "player" }
@@ -59,7 +58,7 @@ local function shoot(entity)
                 :give("transform", pos, nil, Vector(32.0, 32.0))
                 :give("projectile")
                 :give("drawable")
-            Beat(projectile, { shrinkStrength = 2.0, growStrength =  2.0 })
+                :give("beat", 2.0, 2.0)
 
             -- overheat
             player.heat = player.heat + player.heatRate
