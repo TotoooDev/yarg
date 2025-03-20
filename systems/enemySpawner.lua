@@ -59,6 +59,7 @@ function EnemySpawnerSystem:onBeat()
             entity.enemySpawner.currentBeat = 0
             entity.enemySpawner.wave = entity.enemySpawner.wave + 1
             entity.world:emit("spawn")
+            entity.world:emit("newWave")
         end
     end
 end

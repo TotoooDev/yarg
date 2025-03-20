@@ -100,4 +100,10 @@ function PlayerSystem:update(dt)
     end
 end
 
+function PlayerSystem:newWave(n)
+    for _, entity in ipairs(self.pool) do
+        entity.player.hp = 3
+    end
+end
+
 return PlayerSystem
