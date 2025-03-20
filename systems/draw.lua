@@ -1,12 +1,15 @@
 local Concord = require("lib.Concord")
 
 local DrawSystem = Concord.system({
-    pool = { "transform", "drawable" },
+    rectanglePool = { "transform", "rectangleShape" },
     playerPool = { "transform", "drawable", "player" }
 })
 
-function DrawSystem:default(entity)
+function DrawSystem:rectangle(entity)
     local transform = entity.transform
+    local rectangle = entity.rectangleShape
+    local mode = "fill"
+    if not rectangle.fill then mode = "line" end
 
     love.graphics.push()
     love.graphics.translate(transform.pos.x, transform.pos.y)
@@ -14,13 +17,13 @@ function DrawSystem:default(entity)
     love.graphics.scale(transform.scale.x, transform.scale.y)
 
     love.graphics.rectangle(
-        "fill",
-        -transform.size.x / 2,
-        -transform.size.y / 2,
-        transform.size.x,
-        transform.size.y,
-        8.0,
-        8.0
+        mode,
+        -rectangle.size.x / 2,
+        -rectangle.size.y / 2,
+        rectangle.size.x,
+        rectangle.size.y,
+        rectangle.radius,
+        rectangle.radius
     )
 
     love.graphics.pop()
@@ -50,8 +53,8 @@ function DrawSystem:player(entity)
 end
 
 function DrawSystem:draw()
-    for _, entity in ipairs(self.pool) do
-        self:default(entity)
+    for _, entity in ipairs(self.rectanglePool) do
+        self:rectangle(entity)
     end
 
     for _, entity in ipairs(self.playerPool) do

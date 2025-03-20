@@ -4,7 +4,7 @@ local Projectile = require("assemblers.projectile")
 return function (entity, level, pos)
     entity:give("enemy", level)
         :give("ship")
-        :give("drawable")
+        :give("rectangleShape")
         :give("beat")
         :give("spawnAnimation")
 
