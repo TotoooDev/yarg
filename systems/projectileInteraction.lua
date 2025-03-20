@@ -2,9 +2,9 @@ local Concord = require("lib.Concord")
 local Util = require("util")
 
 local EnemySystem = Concord.system({
-    playerPool = { "transform", "player" },
-    enemyPool = { "transform", "enemy" },
-    projectilePool = { "transform", "projectile" },
+    playerPool = { "transform", "player", "rectangleShape" },
+    enemyPool = { "transform", "enemy", "rectangleShape" },
+    projectilePool = { "transform", "projectile", "rectangleShape" },
 })
 
 function EnemySystem:update(dt)
@@ -12,9 +12,9 @@ function EnemySystem:update(dt)
         for _, plEntity in ipairs(self.playerPool) do
             local collision = Util.aabbCollision(
                 pEntity.transform.pos,
-                pEntity.transform.size,
+                pEntity.rectangleShape.size,
                 plEntity.transform.pos,
-                plEntity.transform.size
+                plEntity.rectangleShape.size
             )
 
             if collision and pEntity.projectile.enemy then
@@ -26,9 +26,9 @@ function EnemySystem:update(dt)
         for _, eEntity in ipairs(self.enemyPool) do
             local collision = Util.aabbCollision(
                 pEntity.transform.pos,
-                pEntity.transform.size,
+                pEntity.rectangleShape.size,
                 eEntity.transform.pos,
-                eEntity.transform.size
+                eEntity.rectangleShape.size
             )
 
             if collision and not pEntity.projectile.enemy then
@@ -41,9 +41,9 @@ function EnemySystem:update(dt)
             if pEntity ~= ppEntity then
                 local collision = Util.aabbCollision(
                     pEntity.transform.pos,
-                    pEntity.transform.size,
+                    pEntity.rectangleShape.size,
                     ppEntity.transform.pos,
-                    ppEntity.transform.size
+                    ppEntity.rectangleShape.size
                 )
 
                 if collision then

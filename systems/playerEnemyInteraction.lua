@@ -2,8 +2,8 @@ local Concord = require("lib.Concord")
 local Util = require("util")
 
 local PlayerEnemyInteractionSystem = Concord.system({
-    playerPool = { "transform", "player" },
-    enemyPool = { "transform", "enemy" }
+    playerPool = { "transform", "player", "rectangleShape" },
+    enemyPool = { "transform", "enemy", "rectangleShape" }
 })
 
 function PlayerEnemyInteractionSystem:update(dt)
@@ -11,9 +11,9 @@ function PlayerEnemyInteractionSystem:update(dt)
         for _, pEntity in ipairs(self.playerPool) do
             local collision = Util.aabbCollision(
                 eEntity.transform.pos,
-                eEntity.transform.size,
+                eEntity.rectangleShape.size,
                 pEntity.transform.pos,
-                pEntity.transform.size
+                pEntity.rectangleShape.size
             )
 
             if collision then

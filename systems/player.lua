@@ -6,23 +6,24 @@ local Projectile = require("assemblers.projectile")
 local States = require("states")
 
 local PlayerSystem = Concord.system({
-    pool = { "transform", "ship", "player" }
+    pool = { "transform", "ship", "player", "rectangleShape" }
 })
 
 local function move(entity, dt)
     local transform = entity.transform
+    local rectangle = entity.rectangleShape
     local windowWidth = love.graphics.getWidth()
     local isMoving = false
     local scaleFactor = 7.0
 
-    if Input.left and transform.pos.x - transform.size.x / 2 >= 0.0 then
+    if Input.left and transform.pos.x - rectangle.size.x / 2 >= 0.0 then
         transform.pos.x = transform.pos.x - entity.ship.speed * dt
         transform.scale.x = transform.scale.x + dt * scaleFactor
         transform.scale.y = transform.scale.y - dt * scaleFactor
         isMoving = true
     end
 
-    if Input.right and transform.pos.x + transform.size.x / 2 <= windowWidth then
+    if Input.right and transform.pos.x + rectangle.size.x / 2 <= windowWidth then
         transform.pos.x = transform.pos.x + entity.ship.speed * dt
         transform.scale.x = transform.scale.x + dt * scaleFactor
         transform.scale.y = transform.scale.y - dt * scaleFactor
@@ -50,12 +51,13 @@ end
 
 local function shoot(entity)
     local transform = entity.transform
+    local rectangle = entity.rectangleShape
     local player = entity.player
 
     local canShoot = love.timer.getTime() - player.lastShoot >= player.cooldown and not player.overheating
         if Input.shoot and canShoot then
             local pos = transform.pos:clone()
-            pos.y = pos.y - transform.size.y
+            pos.y = pos.y - rectangle.size.y
 
             Projectile(
                 entity.world:newEntity("projectile"),

@@ -25,7 +25,7 @@ function EnemySystem:onBeat(n)
                 Timer.tween(
                     0.3,
                     entity.transform,
-                    { pos = Vector(entity.transform.pos.x, love.graphics.getHeight() + entity.transform.size.y) },
+                    { pos = Vector(entity.transform.pos.x, love.graphics.getHeight() + entity.rectangleShape.size.y) },
                     "in-back",
                     function ()
                         entity.world:emit("onEnemyDead")
