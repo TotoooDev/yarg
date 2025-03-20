@@ -18,7 +18,6 @@ function EnemySystem:update(dt)
             )
 
             if collision and pEntity.projectile.enemy then
-                print("HAHAHAHAH")
                 pEntity:destroy()
                 plEntity.player.hp = plEntity.player.hp - 1
             end

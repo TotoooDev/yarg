@@ -89,6 +89,10 @@ function PlayerSystem:update(dt)
         move(entity, dt)
         shoot(entity)
         dissipateHeat(entity, dt)
+
+        if entity.player.hp <= 0 then
+            error("you ded")
+        end
     end
 end
 
