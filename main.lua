@@ -19,7 +19,7 @@ function love.load()
     TRACK = lovebpm.newTrack()
         :load("assets/1408549_Rep.mp3")
         :setBPM(130)
-        :play(true)
+        -- :play(true)
         :setTime(1.7)
 
     world = World()

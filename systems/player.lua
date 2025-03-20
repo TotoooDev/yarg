@@ -59,7 +59,7 @@ local function shoot(entity)
                 :give("transform", pos, nil, Vector(32.0, 32.0))
                 :give("projectile")
                 :give("drawable")
-            Beat(projectile, 2.0, 2.0)
+            Beat(projectile, { shrinkStrength = 2.0, growStrength =  2.0 })
 
             -- overheat
             player.heat = player.heat + player.heatRate
