@@ -19,10 +19,12 @@ function love.load()
     TRACK = lovebpm.newTrack()
         :load("assets/1408549_Rep.mp3")
         :setBPM(130)
-        -- :play(true)
+        :play(true)
+        :setVolume(0.0)
         :setTime(1.7)
 
     world = World()
+    world.printEntities = true
 
     local spawner = world:newEntity("spawner")
         :give("enemySpawner")

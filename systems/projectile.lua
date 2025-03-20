@@ -8,10 +8,14 @@ local ProjectileSystem = Concord.system({
 
 function ProjectileSystem:update(dt)
     for _, entity in ipairs(self.pool) do
-        entity.transform.pos.y = entity.transform.pos.y - entity.projectile.speed * dt
-        entity.transform.rotation = entity.transform.rotation + 10.0 * dt
+        local transform = entity.transform
 
-        if entity.transform.pos.y <= -entity.transform.size.y / 2.0 then
+        transform.pos = transform.pos - entity.projectile.direction * entity.projectile.speed * dt
+        transform.rotation = transform.rotation + 10.0 * dt
+
+        local windowWidth, windowHeight = love.graphics.getDimensions()
+        if transform.pos.y <= -transform.size.y / 2.0 or
+            transform.pos.y >= windowHeight - transform.size.y / 2.0 then
             entity:destroy()
         end
     end
