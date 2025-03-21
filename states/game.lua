@@ -40,6 +40,8 @@ return function (state)
             :give("beat")
         world.world:emit("spawn")
 
+        world:newEntity("camera"):give("camera")
+
         ScoreAssembler(world:newEntity("score"))
         Player(world:newEntity("player"))
 

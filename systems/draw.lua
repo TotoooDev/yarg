@@ -1,6 +1,7 @@
 local Concord = require("lib.Concord")
 
 local DrawSystem = Concord.system({
+    cameraPool = { "camera" },
     rectanglePool = { "transform", "rectangleShape" },
     circlePool = { "transform", "circleShape" },
     textPool = { "transform", "text" },
@@ -117,6 +118,10 @@ function DrawSystem:draw()
         self:text(entity)
     end
 
+    for _, entity in ipairs(self.cameraPool) do
+        entity.camera.camera:attach()
+    end
+
     for _, entity in ipairs(self.rectanglePool) do
         self:rectangle(entity)
     end
@@ -131,6 +136,10 @@ function DrawSystem:draw()
 
     for _, entity in ipairs(self.playerPool) do
         self:player(entity)
+    end
+
+    for _, entity in ipairs(self.cameraPool) do
+        entity.camera.camera:detach()
     end
 end
 

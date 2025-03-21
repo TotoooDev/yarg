@@ -17,6 +17,7 @@ function PlayerEnemyInteractionSystem:update(dt)
             )
 
             if collision then
+                pEntity.world:emit("cameraShake", 0.2, 10.0)
                 eEntity:destroy()
                 pEntity.player.hp = pEntity.player.hp - 1
             end
