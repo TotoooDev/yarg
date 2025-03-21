@@ -31,7 +31,7 @@ return function (state)
             :load(AudioRegistry.music.rep)
             :setBPM(130)
             :play(true)
-            :setVolume(0.0)
+            -- :setVolume(0.0)
             :on("beat", function (n) world.world:emit("onBeat", n) end)
         AudioRegistry.setCurrentBPM(130)
 

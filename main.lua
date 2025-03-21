@@ -16,6 +16,8 @@ function love.load()
     -- love.mouse.setGrabbed(true)
     -- love.mouse.setVisible(false)
 
+    love.audio.setVolume(0.2)
+
     AudioRegistry.load()
 
     MenuState(States.menu)
