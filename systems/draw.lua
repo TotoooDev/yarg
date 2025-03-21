@@ -4,6 +4,7 @@ local DrawSystem = Concord.system({
     rectanglePool = { "transform", "rectangleShape" },
     circlePool = { "transform", "circleShape" },
     textPool = { "transform", "text" },
+    deathParticlesPool = { "transform", "deathParticles" },
     playerPool = { "transform", "player" }
 })
 
@@ -77,6 +78,17 @@ function DrawSystem:text(entity)
     love.graphics.pop()
 end
 
+function DrawSystem:deathParticles(entity)
+    local transform = entity.transform
+    local particles = entity.deathParticles
+
+    love.graphics.draw(
+        particles.system,
+        transform.pos.x,
+        transform.pos.y
+    )
+end
+
 function DrawSystem:player(entity)
     local player = entity.player
 
@@ -111,6 +123,10 @@ function DrawSystem:draw()
 
     for _, entity in ipairs(self.circlePool) do
         self:circle(entity)
+    end
+
+    for _, entity in ipairs(self.deathParticlesPool) do
+        self:deathParticles(entity)
     end
 
     for _, entity in ipairs(self.playerPool) do

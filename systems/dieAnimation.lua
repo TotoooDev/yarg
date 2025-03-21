@@ -1,6 +1,7 @@
 local Concord = require("lib.Concord")
 local Timer = require("lib.hump.timer")
 local Vector = require("lib.hump.vector")
+local DeathParticles = require("assemblers.deathParticles")
 
 local DieAnimationSystem = Concord.system({
     pool = { "transform", "dieAnimation" }
@@ -15,6 +16,8 @@ function DieAnimationSystem:doDieAnimation()
 
         if not animation.isDying then
             animation.isDying = true
+
+            DeathParticles(entity.world:newEntity("deathparticles"), entity.transform.pos:clone())
 
             Timer.tween(
                 animation.time,
