@@ -10,7 +10,7 @@ local smoother = Camera.smooth.damped(10)
 function CameraSystem:cameraShake(time, intensity)
     for _, entity in ipairs(self.pool) do
         entity.camera.shakeTime = time or 0.5
-        entity.camera.intensity = intensity or 10.0
+        entity.camera.intensity = intensity or 7.0
     end
 end
 

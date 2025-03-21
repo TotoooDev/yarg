@@ -17,7 +17,7 @@ function DieAnimationSystem:doDieAnimation()
         if not animation.isDying then
             animation.isDying = true
 
-            entity.world:emit("cameraShake", 0.2, 10.0)
+            entity.world:emit("cameraShake", 0.2)
             DeathParticles(entity.world:newEntity("deathparticles"), entity.transform.pos:clone())
 
             Timer.tween(
