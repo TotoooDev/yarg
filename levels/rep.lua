@@ -2,6 +2,7 @@ local Rep = {
     songName = "Rep!",
     songPath = "assets/1408549_Rep.mp3",
     bpm = 130,
+    startOnBeat = 0,
     difficulty = "easy",
 
     layout = {

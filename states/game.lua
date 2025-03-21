@@ -27,6 +27,7 @@ return function (state)
 
         currentLevel = level
         currentLevel.track:play(true)
+            :setBeat(currentLevel.startOnBeat)
             :on("beat", function (n) world.world:emit("onBeat", n) end)
 
         world:newEntity("spawner")

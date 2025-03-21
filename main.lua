@@ -16,7 +16,7 @@ function love.load()
     -- love.mouse.setGrabbed(true)
     -- love.mouse.setVisible(false)
 
-    love.audio.setVolume(0.2)
+    love.audio.setVolume(0.5)
 
     LevelRegistry.load()
 
@@ -25,5 +25,5 @@ function love.load()
     GameOverState(States.gameOver)
 
     Gamestate.registerEvents()
-    Gamestate.switch(States.game, LevelRegistry[1])
+    Gamestate.switch(States.game, LevelRegistry[2])
 end
