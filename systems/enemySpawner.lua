@@ -1,8 +1,5 @@
 local Concord = require("lib.Concord")
-local Gamestate = require("lib.hump.gamestate")
 local Signal = require("lib.hump.signal")
-local States = require("states")
-local WaveLayouts = require("waveLayouts")
 local Score = require("score")
 local Enemy = require("assemblers.enemy")
 
@@ -15,7 +12,7 @@ function EnemySpawnerSystem:spawn()
 
     for _, entity in ipairs(self.pool) do
         entity.enemySpawner.enemiesAlive = 0
-        local wave = WaveLayouts[entity.enemySpawner.wave]
+        local wave = entity.enemySpawner.level.layout[entity.enemySpawner.wave]
         entity.enemySpawner.beatInterval = wave.beats
 
         for y, line in ipairs(wave.layout) do
@@ -54,7 +51,7 @@ function EnemySpawnerSystem:onBeat()
             entity.world:emit("newWave")
 
 
-            if entity.enemySpawner.wave > #WaveLayouts then
+            if entity.enemySpawner.wave > #entity.enemySpawner.level.layout then
                 Signal.emit("levelOver", true)
             else
                 entity.world:emit("spawn")

@@ -1,8 +1,6 @@
 local Timer = require("lib.hump.timer")
 local Signal = require("lib.hump.signal")
 local Gamestate = require("lib.hump.gamestate")
-local lovebpm = require("lib.lovebpm")
-local AudioRegistry = require("audioRegistry")
 local World = require("world")
 local Input = require("input")
 local States = require("states")
@@ -12,12 +10,12 @@ local Player = require("assemblers.player")
 
 return function (state)
     local world
-    local track
+    local currentLevel
 
-    function state:enter()
+    function state:enter(_, level)
         Signal.register("levelOver", function (hasWin)
             local f = function (t)
-                track:setVolume(t)
+                currentLevel.track:setVolume(t)
                 return t
             end
             local foo = { foo = 1 }
@@ -27,16 +25,12 @@ return function (state)
         world = World()
         -- world.printEntities = true
 
-        track = lovebpm.newTrack()
-            :load(AudioRegistry.music.rep)
-            :setBPM(130)
-            :play(true)
-            -- :setVolume(0.0)
+        currentLevel = level
+        currentLevel.track:play(true)
             :on("beat", function (n) world.world:emit("onBeat", n) end)
-        AudioRegistry.setCurrentBPM(130)
 
         world:newEntity("spawner")
-            :give("enemySpawner")
+            :give("enemySpawner", currentLevel)
             :give("beat")
         world.world:emit("spawn")
 
@@ -56,7 +50,7 @@ return function (state)
 
     function state:update(dt)
         Timer.update(dt)
-        track:update()
+        currentLevel.track:update()
         world:update(dt)
     end
 

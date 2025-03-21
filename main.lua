@@ -4,7 +4,7 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
 end
 
 local Gamestate = require("lib.hump.gamestate")
-local AudioRegistry = require("audioRegistry")
+local LevelRegistry = require("levelRegistry")
 local States = require("states")
 local MenuState = require("states.menu")
 local GameState = require("states.game")
@@ -18,12 +18,12 @@ function love.load()
 
     love.audio.setVolume(0.2)
 
-    AudioRegistry.load()
+    LevelRegistry.load()
 
     MenuState(States.menu)
     GameState(States.game)
     GameOverState(States.gameOver)
 
     Gamestate.registerEvents()
-    Gamestate.switch(States.game)
+    Gamestate.switch(States.game, LevelRegistry[1])
 end
