@@ -5,20 +5,15 @@ local Score = require("score")
 local Projectile = require("assemblers.projectile")
 
 local EnemySystem = Concord.system({
-    pool = { "transform", "enemy" }
+    pool = { "transform", "enemy", "dieAnimation" }
 })
 
 function EnemySystem:update(dt)
     for _, entity in ipairs(self.pool) do
         if entity.enemy.hp <= 0 then
-            entity.world:emit("onEnemyDead")
-            entity:destroy() -- YOU SHOULD KILL YOURSELF, NOW!
-
-            if entity.enemy.diving then
-                Score.add(Score.Values.enemyDeadWhileDiving)
-            else
-                Score.add(Score.Values.enemyDead)
-            end
+            entity.enemy.isDying = true
+            entity.dieAnimation.doAnimation = true
+            entity.world:emit("doDieAnimation")
         end
     end
 end
@@ -49,6 +44,21 @@ function EnemySystem:dive()
             end
         )
         entity.enemy.diving = true
+    end
+end
+
+function EnemySystem:dieAnimationOver()
+    for _, entity in ipairs(self.pool) do
+        if entity.enemy.hp <= 0 then
+            entity.world:emit("onEnemyDead")
+            entity:destroy() -- YOU SHOULD KILL YOURSELF, NOW!
+
+            if entity.enemy.diving then
+                Score.add(Score.Values.enemyDeadWhileDiving)
+            else
+                Score.add(Score.Values.enemyDead)
+            end
+        end
     end
 end
 

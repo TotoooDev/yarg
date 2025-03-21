@@ -7,6 +7,7 @@ return function (entity, level, pos)
         :give("rectangleShape")
         :give("beat")
         :give("spawnAnimation")
+        :give("dieAnimation")
 
     if pos then
         entity.transform.pos = pos:clone()

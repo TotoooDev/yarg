@@ -32,7 +32,7 @@ function EnemySystem:update(dt)
                 eEntity.rectangleShape.size
             )
 
-            if collision and not pEntity.projectile.enemy then
+            if collision and not pEntity.projectile.enemy and not eEntity.enemy.isDying then
                 pEntity:destroy()
                 eEntity.enemy.hp = eEntity.enemy.hp - 1
             end

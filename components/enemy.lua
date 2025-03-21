@@ -5,4 +5,5 @@ Concord.component("enemy", function (c, hp, projectileProbability)
     c.projectileProbability = projectileProbability or 0.025
     c.beats = 0
     c.diving = false
+    c.isDying = false
 end)
