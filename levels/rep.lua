@@ -1,5 +1,6 @@
 local Rep = {
     songName = "Rep!",
+    artist = "Reptythm",
     songPath = "assets/1408549_Rep.mp3",
     bpm = 130,
     startOnBeat = 0,

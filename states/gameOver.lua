@@ -14,12 +14,12 @@ return function (state)
 
     function state:draw()
         love.graphics.print(str, 0, 0)
-        love.graphics.print("press space to play again", 0, 32)
+        love.graphics.print("press space to return to menu", 0, 32)
     end
 
     function state:keypressed(_, scancode)
         if scancode == "space" then
-            Gamestate.switch(States.game)
+            Gamestate.switch(States.menu)
         end
     end
 end

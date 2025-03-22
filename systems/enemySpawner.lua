@@ -41,7 +41,7 @@ function EnemySpawnerSystem:onBeat()
     for _, entity in ipairs(self.pool) do
         entity.enemySpawner.currentBeat = entity.enemySpawner.currentBeat + 1
 
-        if entity.enemySpawner.currentBeat == entity.enemySpawner.beatInterval - 1 then
+        if entity.enemySpawner.currentBeat >= entity.enemySpawner.beatInterval - 1 then
             entity.world:emit("dive")
         end
 

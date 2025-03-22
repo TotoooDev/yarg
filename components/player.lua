@@ -7,7 +7,7 @@ Concord.component("player", function (c)
     c.lastShoot = 0.0
 
     c.heat = 0.0
-    c.heatRate = 15.0
+    c.heatRate = 10.0
     c.overheatLimit = 100.0
     c.overheatDissipationRate = 50.0
     c.overheating = false

@@ -1,6 +1,7 @@
 local Concord = require("lib.Concord")
 local Vector = require("lib.hump.vector")
 local GameState = require("lib.hump.gamestate")
+local Signal = require("lib.hump.signal")
 local Input = require("input")
 local Projectile = require("assemblers.projectile")
 local States = require("states")
@@ -95,7 +96,8 @@ function PlayerSystem:update(dt)
         dissipateHeat(entity, dt)
 
         if entity.player.hp <= 0 then
-            GameState.switch(States.gameOver, false)
+            print("ouille")
+            Signal.emit("levelOver", false)
         end
     end
 end

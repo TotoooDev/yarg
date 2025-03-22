@@ -18,8 +18,7 @@ return function (state)
                 currentLevel.track:setVolume(t)
                 return t
             end
-            local foo = { foo = 1 }
-            Timer.tween(2.0, foo, { foo = 2 }, Timer.tween.out(f), function () Gamestate.switch(States.gameOver, hasWin) end)
+            Timer.tween(2.0, {}, {}, Timer.tween.out(f), function () currentLevel.track:stop() Gamestate.switch(States.gameOver, hasWin) end)
         end)
 
         world = World()
@@ -29,6 +28,12 @@ return function (state)
         currentLevel.track:play(true)
             :setBeat(currentLevel.startOnBeat)
             :on("beat", function (n) world.world:emit("onBeat", n) end)
+
+        local function fadeIn (t)
+            currentLevel.track:setVolume(t)
+            return t
+        end
+        Timer.tween(2.0, {}, {}, fadeIn)
 
         world:newEntity("spawner")
             :give("enemySpawner", currentLevel)
@@ -44,6 +49,8 @@ return function (state)
     end
 
     function state:leave()
+        world.world:clear()
+
         Input.left = false
         Input.right = false
         Input.shoot = false
