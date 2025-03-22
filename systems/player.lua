@@ -94,17 +94,22 @@ function PlayerSystem:update(dt)
         move(entity, dt)
         shoot(entity)
         dissipateHeat(entity, dt)
-
-        if entity.player.hp <= 0 then
-            print("ouille")
-            Signal.emit("levelOver", false)
-        end
     end
 end
 
-function PlayerSystem:newWave(n)
+function PlayerSystem:playerDie()
     for _, entity in ipairs(self.pool) do
-        entity.player.hp = 3
+        entity.player.mustDie = true
+        entity.dieAnimation.doAnimation = true
+        entity.world:emit("doDieAnimation")
+    end
+end
+
+function PlayerSystem:dieAnimationOver()
+    for _, entity in ipairs(self.pool) do
+        if entity.player.mustDie then
+            entity:destroy()
+        end
     end
 end
 

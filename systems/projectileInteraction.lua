@@ -1,4 +1,5 @@
 local Concord = require("lib.Concord")
+local Signal = require("lib.hump.signal")
 local Score = require("score")
 local Util = require("util")
 
@@ -21,7 +22,8 @@ function EnemySystem:update(dt)
             if collision and pEntity.projectile.enemy then
                 pEntity.world:emit("cameraShake", 0.2)
                 pEntity:destroy()
-                plEntity.player.hp = plEntity.player.hp - 1
+                pEntity.world:emit("playerDie")
+                Signal.emit("levelOver")
             end
         end
 

@@ -18,7 +18,11 @@ return function (state)
                 currentLevel.track:setVolume(t)
                 return t
             end
-            Timer.tween(2.0, {}, {}, Timer.tween.out(f), function () currentLevel.track:stop() Gamestate.switch(States.gameOver, hasWin) end)
+            Timer.tween(2.0, {}, {}, Timer.tween.out(f), function ()
+                -- currentLevel.track:stop()
+                -- Gamestate.switch(States.gameOver, hasWin)
+                love.event.quit()
+            end)
         end)
 
         world = World()
