@@ -13,8 +13,8 @@ local GameOverState = require("states.gameOver")
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setFont(love.graphics.newFont("assets/font/c64esque.ttf", 32.0))
-    -- love.mouse.setGrabbed(true)
-    -- love.mouse.setVisible(false)
+    love.mouse.setGrabbed(true)
+    love.mouse.setVisible(false)
 
     love.audio.setVolume(0.5)
 
@@ -25,5 +25,5 @@ function love.load()
     GameOverState(States.gameOver)
 
     Gamestate.registerEvents()
-    Gamestate.switch(States.game, LevelRegistry[2])
+    Gamestate.switch(States.game, LevelRegistry[1])
 end

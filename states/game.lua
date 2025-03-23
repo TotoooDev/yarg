@@ -11,8 +11,17 @@ local Player = require("assemblers.player")
 return function (state)
     local world
     local currentLevel
+    local creditsAlpha = { 1.0 }
 
     function state:enter(_, level)
+        Timer.after(2.0, function ()
+            Timer.tween(
+                1.0,
+                creditsAlpha,
+                { 0.0 }
+            )
+        end)
+
         Signal.register("levelOver", function (hasWin)
             local f = function (t)
                 currentLevel.track:setVolume(t)
@@ -68,18 +77,44 @@ return function (state)
 
     function state:draw()
         world:draw()
+        love.graphics.print({ { 1.0, 1.0, 1.0, creditsAlpha[1] }, "song: Socialize by Demonicity" }, 10, 0)
     end
 
     function state:keypressed(key, scancode, isrepeat)
-        if scancode == "a" then Input.left  = true end
-        if scancode == "d" then Input.right = true end
+        if scancode == "a" or scancode == "left"  then Input.left  = true end
+        if scancode == "d" or scancode == "right" then Input.right = true end
         if scancode == "space" then Input.shoot = true end
+
+        if scancode == "escape" then love.event.quit() end
     end
 
     function state:keyreleased(key, scancode)
-        if scancode == "a" then Input.left  = false end
-        if scancode == "d" then Input.right = false end
+        if scancode == "a" or scancode == "left"  then Input.left  = false end
+        if scancode == "d" or scancode == "right" then Input.right = false end
         if scancode == "space" then Input.shoot = false end
+    end
+
+    function state:joystickpressed(joystick, button)
+        Input.shoot = true
+    end
+
+    function state:joystickreleased(joystick, button)
+        Input.shoot = false
+    end
+
+    function state:joystickaxis(joystick, axis, value)
+        if axis == 1 then
+            if value >= 0.1 then
+                Input.right = true
+            else
+                Input.right = false
+            end
+            if value <= -0.1 then
+                Input.left = true
+            else
+                Input.left = false
+            end
+        end
     end
 
     function state:addScore(n)

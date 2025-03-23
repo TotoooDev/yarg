@@ -21,12 +21,12 @@ end
 function EnemySystem:onBeat(n)
     for _, entity in ipairs(self.pool) do
         if love.math.random() < entity.enemy.projectileProbability then
-            Projectile(
-                entity.world:newEntity("projectile"),
-                entity.transform.pos:clone(),
-                Vector(0.0, -1.0),
-                true
-            )
+            -- Projectile(
+            --     entity.world:newEntity("projectile"),
+            --     entity.transform.pos:clone(),
+            --     Vector(0.0, -1.0),
+            --     true
+            -- )
         end
     end
 end

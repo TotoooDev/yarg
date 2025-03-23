@@ -17,9 +17,9 @@ function PlayerEnemyInteractionSystem:update(dt)
                 pEntity.rectangleShape.size
             )
 
-            if collision then
-                Signal.emit("levelOver", false)
+            if collision and not eEntity.enemy.isDying then
                 pEntity.world:emit("cameraShake", 0.2)
+                Signal.emit("levelOver", false)
                 pEntity.world:emit("playerDie")
                 eEntity:destroy()
             end
